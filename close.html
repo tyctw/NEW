@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="桃聯區會考落點分析，幫助使用者分析會考成績，提供學校落點參考。">
+    <meta name="keywords" content="桃聯區, 會考, 落點分析, 教育, 學校">
+    <meta name="author" content="桃聯區教育局">
+    <title>網站維修中</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            max-width: 400px;
+            width: 90%;
+        }
+        .container:hover {
+            transform: translateY(-10px);
+        }
+        .icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+        .container h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .container p {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .container a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        .container a:hover {
+            background-color: #0056b3;
+        }
+        .countdown {
+            font-size: 1.5em;
+            color: #d9534f;
+            margin-bottom: 10px;
+        }
+        .language-selector {
+            margin-top: 20px;
+        }
+        select {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-color: #fff;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">&#9888;</div>
+        <h1 id="pageTitle">網站維修中</h1>
+        <p id="pageDescription">目前尚未開放，正在維修中。<br>請稍後再試。</p>
+        <div class="countdown" id="countdown"></div>
+        <div class="language-selector">
+            <select id="languageSelect" onchange="changeLanguage()">
+                <option value="zh-TW">繁體中文</option>
+                <option value="en">English</option>
+                <!-- Add more languages as needed -->
+            </select>
+        </div>
+        <a href="https://sites.google.com/view/tyctw/" id="linkToHome">返回首頁</a>
+    </div>
+
+    <script>
+        function countdownTimer(endTime) {
+            const countdownElement = document.getElementById('countdown');
+            function updateTimer() {
+                const now = new Date().getTime();
+                const distance = endTime - now;
+
+                if (distance < 0) {
+                    clearInterval(interval);
+                    countdownElement.innerHTML = getLocalizedString('maintenanceCompleted');
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownElement.innerHTML = `${days} ${getLocalizedString('days')} ${hours} ${getLocalizedString('hours')} ${minutes} ${getLocalizedString('minutes')} ${seconds} ${getLocalizedString('seconds')}`;
+            }
+
+            updateTimer();
+            const interval = setInterval(updateTimer, 1000);
+        }
+
+        const maintenanceEndTime = new Date("Nov 5, 2024 12:00:00").getTime(); // Modify this date and time
+        countdownTimer(maintenanceEndTime);
+
+        function changeLanguage() {
+            var lang = document.getElementById("languageSelect").value;
+            const pageTitleElement = document.getElementById('pageTitle');
+            const pageDescriptionElement = document.getElementById('pageDescription');
+            const linkToHomeElement = document.getElementById('linkToHome');
+
+            if (lang === 'en') {
+                pageTitleElement.textContent = 'Website Under Maintenance';
+                pageDescriptionElement.textContent = 'Currently under maintenance. Please try again later.';
+                linkToHomeElement.textContent = 'Return to Homepage';
+                document.getElementById('countdown').innerHTML = getLocalizedString('countdownEN');
+            } else {
+                pageTitleElement.textContent = '網站維修中';
+                pageDescriptionElement.textContent = '目前尚未開放，正在維修中。\n請稍後再試。';
+                linkToHomeElement.textContent = '返回首頁';
+                document.getElementById('countdown').innerHTML = getLocalizedString('countdown');
+            }
+        }
+
+        // Function to get localized strings
+        function getLocalizedString(key) {
+            const translations = {
+                'maintenanceCompleted': {
+                    'zh-TW': '維修完成',
+                    'en': 'Maintenance Completed'
+                },
+                'days': {
+                    'zh-TW': '天',
+                    'en': 'days'
+                },
+                'hours': {
+                    'zh-TW': '小時',
+                    'en': 'hours'
+                },
+                'minutes': {
+                    'zh-TW': '分鐘',
+                    'en': 'minutes'
+                },
+                'seconds': {
+                    'zh-TW': '秒',
+                    'en': 'seconds'
+                },
+                'countdown': {
+                    'zh-TW': '天 小時 分鐘 秒',
+                    'en': 'days hours minutes seconds'
+                },
+                'countdownEN': {
+                    'zh-TW': '天 小時 分鐘 秒',
+                    'en': 'days hours minutes seconds'
+                }
+                // Add more translations as needed
+            };
+
+            // Default to traditional Chinese if translation not found
+            const language = document.getElementById('languageSelect').value || 'zh-TW';
+            return translations[key][language] || key;
+        }
+
+    </script>
+</body>
+</html>
